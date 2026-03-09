@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>wa-chat-relay — Widget Test</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: system-ui, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #667eea, #764ba2, #f093fb, #4facfe);
+      background-size: 400% 400%;
+      animation: gradientShift 10s ease infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @keyframes gradientShift {
+      0%   { background-position: 0% 50%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 24px;
+      padding: 48px 56px;
+      text-align: center;
+      color: white;
+      max-width: 480px;
+      width: 90%;
+    }
+
+    .card h1 {
+      font-size: 1.8rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 1rem;
+      opacity: 0.85;
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .status-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-align: left;
+    }
+
+    .status-row {
+      background: rgba(255, 255, 255, 0.15);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-row .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .dot.green  { background: #4ade80; }
+    .dot.yellow { background: #fbbf24; }
+    .dot.gray   { background: rgba(255,255,255,0.4); }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>wa-chat-relay</h1>
+    <p>Widget test page. Click the chat bubble in the bottom-right corner to try it out.</p>
+
+    <div class="status-grid">
+      <div class="status-row">
+        <span class="dot green"></span>
+        Widget loaded — UI is working
+      </div>
+      <div class="status-row">
+        <span class="dot yellow" id="server-dot"></span>
+        <span id="server-status">Server — checking...</span>
+      </div>
+      <div class="status-row">
+        <span class="dot gray"></span>
+        Reply format on WhatsApp: <strong>&nbsp;#1 your reply</strong>
+      </div>
+    </div>
+  </div>
+
+  <!-- Chat widget — change data-server to your deployed URL when testing for real -->
+  <script
+    src="./widget/chat-widget.js"
+    data-server="ws://localhost:3001"
+    data-title="Sumanth"
+    data-color="#667eea"
+    defer
+  ></script>
+
+  <script>
+    // Check if server is reachable and update status dot
+    fetch("http://localhost:3001/health")
+      .then((r) => r.json())
+      .then((data) => {
+        const dot = document.getElementById("server-dot");
+        const label = document.getElementById("server-status");
+        if (data.whatsapp === "ready") {
+          dot.className = "dot green";
+          label.textContent = "Server connected — WhatsApp ready";
+        } else if (data.whatsapp === "qr") {
+          dot.className = "dot yellow";
+          label.textContent = "Server running — scan QR in terminal";
+        } else {
+          dot.className = "dot yellow";
+          label.textContent = `Server running — WhatsApp: ${data.whatsapp}`;
+        }
+      })
+      .catch(() => {
+        document.getElementById("server-dot").style.background = "#f87171";
+        document.getElementById("server-status").textContent =
+          "Server offline — run: npm start";
+      });
+  </script>
+
+</body>
+</html>

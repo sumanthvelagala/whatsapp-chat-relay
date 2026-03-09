@@ -1,0 +1,30 @@
+# Environment
+.env
+.env.*
+
+# WhatsApp auth session (generated after QR scan)
+.wwebjs_auth/
+.wwebjs_cache/
+
+# Dependencies
+node_modules/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Anthropic / Claude
+.claude/
+CLAUDE.md
+
+# IDE
+.vscode/
+.idea/
+
+# Misc
+*.tmp
+*.bak
