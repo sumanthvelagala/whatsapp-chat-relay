@@ -4,6 +4,17 @@ A self-hosted WhatsApp chat relay server. Lets visitors chat with you directly f
 
 An AI bot (powered by Groq) covers for you when you're busy. Once you reply from WhatsApp, the bot steps aside for that session.
 
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Runtime | Node.js |
+| Server | Express |
+| Real-time | WebSocket (ws) |
+| WhatsApp | whatsapp-web.js + Puppeteer |
+| AI Bot | Groq API — Llama 3.3 70B |
+| Widget | Vanilla JS (no framework, no build step) |
+
 ---
 
 ## How it works

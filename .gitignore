@@ -17,10 +17,6 @@ npm-debug.log*
 .DS_Store
 Thumbs.db
 
-# Anthropic / Claude
-.claude/
-CLAUDE.md
-
 # IDE
 .vscode/
 .idea/
