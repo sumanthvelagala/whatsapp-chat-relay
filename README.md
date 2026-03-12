@@ -4,6 +4,52 @@ A self-hosted WhatsApp chat relay server. Lets visitors chat with you directly f
 
 An AI bot (powered by Groq) covers for you when you're busy. Once you reply from WhatsApp, the bot steps aside for that session.
 
+---
+
+## Key Features
+
+**Why use this instead of just putting a WhatsApp link on your site?**
+
+- **Privacy First** — Your phone number never appears on the public web. Visitors only see a chat widget; they never learn your number.
+- **No Friction for Visitors** — They chat directly in the browser. No app switch, no "open WhatsApp", no extra steps.
+- **Instant Notifications** — The moment a potential employer opens your contact page and sends a message, you get a ping on your own WhatsApp.
+- **Automated Responses** — An AI bot answers common questions about your background and projects in your voice while you're away. You step in at any time and it steps aside.
+
+---
+
+## Quick Start
+
+```bash
+# Clone the repo
+git clone https://github.com/yourname/whatsapp-chat-relay
+cd whatsapp-chat-relay
+
+# Install dependencies
+npm install
+
+# Copy and fill in environment variables
+cp .env.example .env
+
+# Start the relay
+npm start
+```
+
+On first run a QR code appears — scan it from **WhatsApp → Settings → Linked Devices → Link a Device**. Then drop the one-line widget script into your site and you're live.
+
+See the [Getting Started](#getting-started) section for the full setup walkthrough.
+
+---
+
+## Why for Resumes?
+
+Most developer portfolios end with a mailto link or a static contact form. This project replaces that with a live chat widget that routes messages directly to your phone.
+
+The technical signal this sends is intentional. Building and self-hosting a real-time WebSocket relay, an AI fallback bot, and a zero-dependency embeddable widget demonstrates skills that a list of bullet points cannot: systems thinking, API integration, security awareness, and care for user experience. Recruiters notice the difference between a portfolio that says "I know React" and one that lets them start a conversation the moment they land on the page.
+
+It also solves a real problem. Phone numbers left in public HTML get scraped. A relay keeps your number off the web entirely while still giving visitors a frictionless way to reach you.
+
+---
+
 ## Tech Stack
 
 | Layer | Technology |
@@ -202,7 +248,7 @@ Languages, frameworks, cloud tools, what you're currently learning.
 
 ### Tone rules (already in the template)
 
-The template includes 7 strict reply rules that control how the bot speaks:
+The template includes 9 strict reply rules that control how the bot speaks:
 
 | Rule | Behavior |
 |---|---|
@@ -214,7 +260,6 @@ The template includes 7 strict reply rules that control how the bot speaks:
 | RULE 4 | Only answer project/skill questions with a short 2-3 sentence response |
 | RULE 5 | Respond to compliments briefly without over-explaining |
 | RULE 6 | For pure casual conversation (movies, sports, etc.) — use the fallback to ask for contact info |
-| RULE 6B | Vague or context-free follow-ups ("anything else?", "cool", "okay") — use the fallback |
 | RULE 7 | Never end the conversation yourself — no "goodbye", "take care", etc. |
 | Multiple messages | If visitor sends several messages in a row, read them all together, skip gibberish, answer meaningful ones in one short reply |
 
