@@ -156,17 +156,28 @@ function handleReply(msg) {
   if (!msg.fromMe) return;
   if (botSentIds.has(msg.id._serialized)) { console.log(`[WA] Skipped — bot sent`); return; }
 
-  const match = msg.body.match(/^#(\d+)\s+([\s\S]+)/);
+  const match = msg.body.match(/^#(\d+)(?:\s+([\s\S]+))?$/);
   if (!match) { console.log(`[WA] No match for reply format`); return; }
 
   const num = parseInt(match[1], 10);
-  const replyText = match[2].trim();
+  const replyText = match[2]?.trim();
 
   const matched = [...sessions.entries()].filter(([, s]) => s.number === num);
 
   if (matched.length === 0) {
     const active = [...sessions.values()].map((s) => `#${s.number}`).join(", ") || "none";
     console.log(`[WA] No session #${num}. Active: ${active}`);
+    return;
+  }
+
+  // #1 hold — cancel bot timer without sending a reply to the visitor
+  if (!replyText || replyText.toLowerCase() === "hold") {
+    for (const [, session] of matched) {
+      clearTimeout(session.botTimer);
+      session.botTimer = null;
+      session.humanActive = true;
+      console.log(`[#${session.number}] Bot held — owner is typing`);
+    }
     return;
   }
 

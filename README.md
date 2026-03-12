@@ -255,6 +255,20 @@ The reply appears instantly in the visitor's chat widget. Your WhatsApp number i
 - Once you reply with `#1 ...`, the bot is disabled for that session.
 - All subsequent replies from the bot are suppressed — you're in full control of that conversation.
 
+**Holding the bot (without sending a reply):**
+
+Since WhatsApp doesn't expose typing detection, use the hold command to cancel the bot timer while you compose your reply:
+
+```
+#1 hold
+```
+
+This immediately disables the bot for that session without sending anything to the visitor. Then take your time and send your actual reply whenever ready:
+
+```
+#1 your actual reply
+```
+
 ---
 
 ## Deployment
